@@ -1,0 +1,43 @@
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+configure:550: checking for a BSD compatible install
+configure:603: checking whether build environment is sane
+configure:660: checking whether make sets ${MAKE}
+configure:706: checking for working aclocal
+configure:719: checking for working autoconf
+configure:732: checking for working automake
+configure:745: checking for working autoheader
+configure:758: checking for working makeinfo
+configure:775: checking for gcc
+configure:888: checking whether the C compiler (gcc  ) works
+configure:904: gcc -o conftest    conftest.c  1>&5
+configure:930: checking whether the C compiler (gcc  ) is a cross-compiler
+configure:935: checking whether we are using GNU C
+configure:944: gcc -E conftest.c
+configure:963: checking whether gcc accepts -g
+configure:996: checking whether gcc and cc understand -c and -o together
+configure:1011: gcc -c conftest.c -o conftest.o 1>&5
+configure:1012: gcc -c conftest.c -o conftest.o 1>&5
+configure:1017: cc -c conftest.c 1>&5
+configure:1019: cc -c conftest.c -o conftest.o 1>&5
+configure:1020: cc -c conftest.c -o conftest.o 1>&5
+configure:1058: checking for a BSD compatible install
+configure:1111: checking whether make sets ${MAKE}
+configure:1181: checking for mpcc
+configure:1216: checking for hcc
+configure:1251: checking for mpicc
+configure:1286: checking for mpicc_lam
+configure:1321: checking for mpicc_mpich
+configure:1652: checking for main in -lm
+configure:1667: gcc -o conftest -g -O2   conftest.c -lm   1>&5
+configure:1696: checking how to run the C preprocessor
+configure:1717: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1776: checking for ANSI C header files
+configure:1789: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1856: gcc -o conftest -g -O2   conftest.c -lm  1>&5
+configure:1883: checking for limits.h
+configure:1893: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1923: checking for working const
+configure:1977: gcc -c -g -O2  conftest.c 1>&5
+configure:1998: checking for size_t

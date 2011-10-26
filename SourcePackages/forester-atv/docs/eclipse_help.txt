@@ -1,0 +1,13 @@
+Eclipse (3.3 or greater):
+
+Sourceforge CVS:
+  Connection type: extssh
+  Host           : forester-atv.cvs.sourceforge.net
+  Port           : Default
+  Repository path: /cvsroot/forester-atv
+  Module         : forester-atv
+
+
+Two external libraries need to be set (Project|Properties|Java Build Path|Libraries):
+  forester-atv/java/jars/fluorite.jar
+  forester-atv/java/jars/gnujpdf.jar

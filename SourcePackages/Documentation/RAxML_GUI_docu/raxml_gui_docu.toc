@@ -1,0 +1,16 @@
+\contentsline {section}{\numberline {1}Panel nesting overview}{1}
+\contentsline {section}{\numberline {2}The MainFrame}{2}
+\contentsline {section}{\numberline {3}The WorkflowPanel}{3}
+\contentsline {section}{\numberline {4}The Job (Panel)}{3}
+\contentsline {section}{\numberline {5}The Submission Panels}{3}
+\contentsline {subsection}{\numberline {5.1}SgaFormPanel}{3}
+\contentsline {subsection}{\numberline {5.2}MgaFormPanel}{4}
+\contentsline {subsection}{\numberline {5.3}PhyloXMLConverterFormPanel}{4}
+\contentsline {subsection}{\numberline {5.4}TreebuilderFormPanel}{4}
+\contentsline {section}{\numberline {6}WaitingPanel}{4}
+\contentsline {section}{\numberline {7}ResultsPanel}{4}
+\contentsline {section}{\numberline {8}Constants}{5}
+\contentsline {subsection}{\numberline {8.1}Folder hierarchy}{5}
+\contentsline {section}{\numberline {9}Testing}{5}
+\contentsline {section}{\numberline {10}Bug report}{5}
+\contentsline {subsection}{\numberline {10.1}MGA Pipeline}{5}

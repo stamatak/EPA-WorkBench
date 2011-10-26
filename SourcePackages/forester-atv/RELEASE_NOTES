@@ -1,0 +1,64 @@
+RIO - Phylogenomic Protein Function Analysis
+Version 1.2 (February 2003)
+Copyright (C) 2002-2003 Washington University School of Medicine
+and Howard Hughes Medical Institute
+All rights reserved
+http://www.phylosoft.org/
+----------------------------------------------------------------
+
+
+
+Changes for version 3.01
+------------------------
+--implemented PhyloXML specification 0.4
+--uses simple ASCII .conf configuration file (not XML)
+--New package structure:
+  org
+    forester
+      atv
+      datastructures
+      extensions
+      io
+      phylogenomics
+      phylogeny
+        factories
+        iterators
+        parsers
+          nhx
+          xml
+      util
+
+
+Changes from version 1.2 to version pre-3.00 beta
+----------------------------------------------
+
+- New UI
+- Added coloring for multiple species
+- Added more click-to options (e.g. get the list of sequences at a node,
+    ability for applet to launch a new browser window and pass sequence name(s)
+    to the URL.
+- Added ability to set branch widths and colors
+- Added support for custom data
+- Partial support of an early phyloXML specification; needs updating (see 
+  www.phyloxml.org)
+- Added ability to control UI with XML config file
+- Improved printing
+- Added a framework for displaying "glyphs" (e.g. tissue expression graphs)
+  that is still in pre-alpha stage.
+- Many bug repairs.
+
+Changes from version 1.1 to version 1.2
+---------------------------------------
+
+- Corrected a problem in puzzle_mod/puzzle which caused it to fail to
+  read in user trees in which on average all names where longer
+  than 20 characters.
+
+- Added about 50 species to the species tree (in particular Archaea and 
+  Arthropoda).
+
+- Rewrote "pfam2trees.pl" which is now called "xt.pl". This program is
+  now better documented and supported.
+
+- Improved "makeTree.pl".
+

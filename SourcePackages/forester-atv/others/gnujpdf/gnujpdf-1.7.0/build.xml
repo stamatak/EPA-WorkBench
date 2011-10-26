@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project name="gnujpdf" default="info" basedir=".">
+
+    <!-- global properties -->
+
+   <property name="name" value="gnujpdf"/>
+   <property name="Name" value="gnujpdf"/>
+   <property name="version" value="1.7.0"/>
+   <property name="year" value="2007"/>
+
+   <property name="source.dir" value="${basedir}/src" />
+   <property name="build.dir" value="${basedir}/build" />
+   <property name="build.classes.dir" value="${build.dir}"/>
+   <property name="dist.dir" value="${basedir}/dist" />
+   <property name="javadoc.dir" value="${build.dir}/javadoc" />
+   <property name="lib.dir" value="${basedir}/lib" />
+   <property name="conf.dir" value="${basedir}/conf" />
+
+   <property name="main.class" value="gnu.jpdf.PDFTest"/>
+   <property name="runtime.classpath" value=""/>
+
+	<!-- compile options -->
+    <property name="debug" value="off"/>
+    <property name="optimize" value="off"/>
+
+    <!-- <property name="jarname" value="gnujpdf.jar" />-->
+    <property name="jarname" value="${name}.jar" />
+    <!--<property name="zipsrcname" value="gnujpdf_src.zip" />-->
+    <property name="dist.base.name" value="${name}-${version}" />
+    <property name="dist.src.name" value="${dist.base.name}-src" />
+    <property name="dist.bin.name" value="${dist.base.name}-bin" />
+    <property name="dist-run.name" value="${dist.base.name}-run"/>
+    <property name="dist-run.dir"  value="${dist.dir}/${dist-run.name}"/>
+
+    <!-- classpath -->
+    <path id="classpath">
+       <pathelement path="${build.classes.dir}" />
+       <pathelement path="${conf.dir}" />
+       <fileset dir="${lib.dir}" >
+          <include name="*.jar" />
+          <include name="*.zip" />
+       </fileset>
+    </path>
+
+    <!-- files for binary distribution -->
+    <fileset dir="${source.dir}" id="dist.bin">
+       <include name="${build.dir}/${jarname}"/>
+       <include name="COPYING"/>
+       <include name="*.txt"/>
+       <include name="*.html"/>
+       <include name="*.jar"/>
+       <exclude name="antbuild.txt"/>
+       <exclude name="build.xml"/>
+       <exclude name="org/**"/>
+       <exclude name="*.jpg"/>
+
+    </fileset>
+
+    <!-- files for source distribution -->
+    <!--<fileset dir="${source.dir}" id="dist.src">-->
+    <fileset dir="${basedir}" id="dist.src">
+       <include name="build.xml"/>
+       <include name="src/**"/>
+    </fileset>
+
+  <!-- ===================================================================== -->
+  <!-- Test Java version.                                                    -->
+  <!-- ===================================================================== -->
+
+   <target name="testjava">
+      <condition property="oldJava">
+         <or>
+            <equals arg1="1.3" arg2="${ant.java.version}" />
+         </or>
+      </condition>
+   </target>
+
+
+    <!-- =================================================================== -->
+    <!-- Shows some information                                              -->
+    <!-- =================================================================== -->
+    <target name="info" description="Prints a short summary of this project">
+        <echo message="" />
+        <echo message="gnujpdf" />
+        <echo message="========" />
+        <echo message="" />
+        <echo message="This application is an open source implementation" />
+        <echo message="of a PDF writer in java" />
+        <echo message="" />
+        <echo message="" />
+        <echo message="Use 'ant -projecthelp' to show available targets" />
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Prepares the build directory                                        -->
+    <!-- =================================================================== -->
+    <target name="prepare">
+    <!-- set time stamp -->
+        <tstamp/>
+        <!-- directory structure -->
+        <mkdir dir="${build.dir}" />
+        <mkdir dir="${build.classes.dir}" />
+        <mkdir dir="${javadoc.dir}" />
+
+        <echo message="------------------- ${Name} ${version} [${year}] ----------------"/>
+
+        <!-- printout some useful status information -->
+        <echo message="ant.java.version:        ${ant.java.version}" />
+        <echo message="ant.file:                ${ant.file}" />
+        <echo message="" />
+
+        <echo message="java.vm.version:         ${java.vm.version}" />
+        <echo message="java.vm.vendor:          ${java.vm.vendor}" />
+        <echo message="java.vm.name:            ${java.vm.name}" />
+        <echo message="" />
+
+        <echo message="os.name:                 ${os.name}" />
+        <echo message="os.arch:                 ${os.arch}" />
+        <echo message="os.version:              ${os.version}" />
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Cleans build directory                                              -->
+    <!-- =================================================================== -->
+    <target name="clean" description="Cleanup your workspace (delete build-directory, ...)">
+        <delete dir="${build.dir}" />
+        <delete dir="${build.classes.dir}" />
+        <delete dir="${javadoc.dir}" />
+        <delete dir="${dist.dir}" />
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Compiles the source directory                                       -->
+    <!-- To use debugging add the debug="true" parameter to javac            -->
+    <!-- =================================================================== -->
+    <target name="compile" depends="prepare,testjava" description="Compile your source-files">
+        <javac srcdir="${source.dir}"
+                destdir="${build.classes.dir}"
+                excludes="**/CVS/**,**/*.ini" >
+            <classpath>
+                <path refid="classpath"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Creates the API documentation                                       -->
+    <!-- =================================================================== -->
+    <target name= "javadoc" depends="prepare" description="Creates the javadoc API documentation">
+        <javadoc packagenames="org.*" sourcepath="${source.dir}" destdir="${javadoc.dir}"
+                doctitle="${Name}"
+                windowtitle="Javadoc for ${Name} (PDF Writer)"
+                header="gnujpdf"
+                footer="gnujpdf">
+            <classpath>
+                <path refid="classpath"/>
+            </classpath>
+        </javadoc>
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Creates the Jar                                                     -->
+    <!-- =================================================================== -->
+    <target name= "package" depends="compile" description="Create a Jar-File of your compiled classes">
+        <tstamp><format property="ts" pattern="yyyyMMdd-HHmmss-z"/> </tstamp>
+
+        <jar jarfile="${build.dir}/${jarname}">
+            <fileset dir="${build.classes.dir}"
+                    includes="*gnu/**"/>
+            <fileset dir="${source.dir}"
+                    includes="*.properties,*.props,*.gif,*.jpg"/>
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+                <attribute name="Implementation-Title" value="${Name}"/>
+                <attribute name="Implementation-Version" value="${version}"/>
+                <attribute name="Implementation-Vendor" value="http://gnujpdf.sourceforge.net"/>
+                <attribute name="Build-Id" value="${ts} (${user.name} [${os.name} ${os.version} ${os.arch}])"/>
+            </manifest>
+        </jar>
+    </target>
+
+
+    <target name= "all" depends="clean, compile, package"   description="Clean, Compile, Jar">
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Creates the distribution                                            -->
+    <!-- =================================================================== -->
+    <target name= "dist" depends="dist-bin, dist-src"   description="Creates all distribution archives">
+    </target>
+    
+    <target name= "dist-bin" depends="dist-bin-zip, dist-bin-tgz, dist-bin-nosubdir-zip, dist-bin-scripting-nosubdir-zip" description="Create a Zip and TGZ Archives with all the binary files">
+    </target>
+
+    <target name= "dist-bin-prepare" depends="package"  description="Prepares binary distribution">
+        <delete dir="${dist.dir}/${dist.base.name}"/>
+        <mkdir dir="${dist.dir}/${dist.base.name}"/>
+        <copy todir="${dist.dir}/${dist.base.name}">
+            <fileset refid="dist.bin"/>
+        </copy>
+        <copy todir="${dist.dir}/${dist.base.name}"
+                file="${build.dir}/${jarname}">
+        </copy>
+    </target>
+
+    <target name= "dist-bin-zip" depends="dist-bin-prepare" description="Create a Zip-File with all the binary files">
+        <zip zipfile="${dist.dir}/${dist.bin.name}.zip"
+            basedir="${dist.dir}/"
+            includes="${dist.base.name}/**">
+        </zip>
+    </target>
+
+    <target name= "dist-bin-nosubdir-zip" depends="dist-bin-prepare" description="Create a Zip-File with all the binary files no sub directory">
+        <zip zipfile="${dist.dir}/${dist.bin.name}-nosubdir.zip"
+            basedir="${dist.dir}/${dist.base.name}"
+            includes="**"
+            excludes="jython.jar,jythonlib.jar,jt400.jar,itext.jar,log4j-1.2.8.jar">
+        </zip>
+    </target>
+
+    <target name= "dist-bin-scripting-nosubdir-zip" depends="dist-bin-prepare" description="Create a Zip-File with all the binary files no sub directory">
+        <zip zipfile="${dist.dir}/${dist.bin.name}-full-nosubdir.zip"
+            basedir="${dist.dir}/${dist.base.name}"
+            includes="**">
+        </zip>
+    </target>
+
+    <target name= "dist-bin-tgz" depends="dist-bin-prepare" description="Create a Tgz-File with all the binary files">
+        <tar tarfile="${dist.dir}/${dist.bin.name}.tar"
+            basedir="${dist.dir}/"
+            includes="${dist.base.name}/**">
+        </tar>
+        <gzip zipfile="${dist.dir}/${dist.bin.name}.tgz" src="${dist.dir}/${dist.bin.name}.tar" />
+        <delete file="${dist.dir}/${dist.bin.name}.tar"/>
+    </target>
+
+    <target name= "dist-src" depends="dist-src-zip, dist-src-tgz" description="Create a Zip and TGZ Archives with all source files">
+    </target>
+
+    <target name= "dist-src-prepare" depends="package"  description="Prepares source distribution">
+        <delete dir="${dist.dir}/${dist.base.name}"/>
+        <mkdir dir="${dist.dir}/${dist.base.name}"/>
+        <copy todir="${dist.dir}/${dist.base.name}">
+            <fileset refid="dist.src"/>
+        </copy>
+    </target>
+
+    <target name= "dist-src-zip" depends="dist-src-prepare" description="Create a Zip-File with all the source files">
+        <zip zipfile="${dist.dir}/${dist.src.name}.zip"
+            basedir="${dist.dir}/"
+            includes="${dist.base.name}/**"
+        />
+    </target>
+
+    <target name= "dist-src-tgz" depends="dist-src-prepare" description="Create a Tgz-File with all the source files">
+        <tar tarfile="${dist.dir}/${dist.src.name}.tar"
+            basedir="${dist.dir}/"
+            includes="${dist.base.name}/**">
+        </tar>
+        <gzip zipfile="${dist.dir}/${dist.src.name}.tgz"    src="${dist.dir}/${dist.src.name}.tar" />
+        <delete file="${dist.dir}/${dist.src.name}.tar"/>
+    </target>
+
+</project>

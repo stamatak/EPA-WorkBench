@@ -1,0 +1,6 @@
+DNA, read1 = 1-100
+DNA, read2 = 101-200
+DNA, read3 = 300-1000
+DNA, read4 = 1001-1050, 1051-1090
+DNA, read6 = 1000-1200\1
+DNA, read5 = 201-299

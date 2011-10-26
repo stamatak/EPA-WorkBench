@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="java/src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/WORK/SOFTWARE_DEV/ECLIPSE_WORKSPACE/forester-atv/java/jars/gnujpdf.jar"/>
+	<classpathentry kind="lib" path="java/jars/jcommon.jar"/>
+	<classpathentry kind="lib" path="java/jars/jfreechart.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

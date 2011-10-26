@@ -1,0 +1,50 @@
+<html>
+  <title>
+    About RAxML Workbench
+  </title>
+  <body>
+    <p>
+      <b><u>RAxML Workbench</u></b>
+    </p>
+    <p>
+      Version: 1.0
+    </p>
+    <p>
+      (c) RAxML Workbench contributors
+    </p>
+    <p><b>RAxML-EPA:</b>
+      <ul>
+        <li> S.A. Berger, A. Stamatakis, Evolutionary Placement of Short Sequence Reads. <a href="http://arxiv.org/abs/0911.2852v1" target="_blank">arXiv:0911.2852v1</a> [q-bio.GN](2009)
+      </li>
+      </ul>
+    </p>
+    <p>
+      <b>Archaeopteryx Treeviewer:</b>
+      <ul>
+        <li>Han, Mira V.; Zmasek, Christian M. (2009). phyloXML: XML for evolutionary biology and comparative genomics. BMC Bioinformatics (United Kingdom: BioMed Central) 10: 356. doi:10.1186/1471-2105-10-356. <a href="http://www.biomedcentral.com/1471-2105/10/356" target="_blank">http://www.biomedcentral.com/1471-2105/10/356</a>
+        </li>
+	<li>Zmasek, Christian M.; Eddy, Sean R. (2001). ATV: display and manipulation of annotated phylogenetic trees. Bioinformatics (United Kingdom: Oxford Journals) 17 (4): 383–384. <a href="http://bioinformatics.oxfordjournals.org/cgi/reprint/17/4/383" target="_blank">http://bioinformatics.oxfordjournals.org/cgi/reprint/17/4/383</a>
+        </li>
+      </ul>
+    </p>
+    <p><b>EDPL:</b>
+      <ul>
+        <li>Frederick A Matsen, Robin B Kodner and E Virginia Armbrust, pplacer: linear time maximum-likelihood and Bayesian phylogenetic placement of sequences onto a fixed reference tree. <a href="http://arxiv.org/abs/1003.5943v1" target="_blank">arXiv:1003.5943v1</a>  [q-bio.PE]
+        </li>
+      </ul>
+    </p>
+    <p><b>Hmmer:</b>
+      <ul>
+        <li>S. R. Eddy., A New Generation of Homology Search Tools Based on Probabilistic Inference. Genome Inform., 23:205-211, 2009.
+      </li>
+      </ul>
+    </p>
+    <p><b>uclust:</b>
+      <ul>
+        <li>
+          <a href="http://www.drive5.com/uclust" target="_blank">http://www.drive5.com/uclust</a>
+        </li>
+      </ul>
+    </p>
+  </body>
+</html>

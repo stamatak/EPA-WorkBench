@@ -1,0 +1,15 @@
+/BasicExternalNodeBasedCoverageExtender.java/1.6/Mon Oct 26 23:29:39 2009//
+/BranchCountingBasedScoringMethod.java/1.5/Mon Oct 26 23:29:39 2009//
+/BranchLengthBasedScoringMethod.java/1.5/Mon Oct 26 23:29:39 2009//
+/Coverage.java/1.4/Tue Jan 13 19:49:31 2009//
+/CoverageCalculationMethod.java/1.4/Tue Jan 13 19:49:31 2009//
+/CoverageCalculationOptions.java/1.3/Tue Jan 13 19:49:31 2009//
+/CoverageCalculator.java/1.4/Tue Jan 13 19:49:31 2009//
+/CoverageExtender.java/1.4/Tue Jan 13 19:49:31 2009//
+/ExternalNodeBasedCoverage.java/1.5/Tue Jan 13 19:49:31 2009//
+/ExternalNodeBasedCoverageMethod.java/1.6/Tue Jan 13 19:49:31 2009//
+/ExternalNodeBasedCoverageMethodOptions.java/1.3/Tue Jan 13 19:49:31 2009//
+/LogBranchLengthBasedScoringMethod.java/1.5/Mon Oct 26 23:29:39 2009//
+/ModelingUtils.java/1.5/Mon Oct 26 23:29:39 2009//
+/ScoringMethodForExternalNode.java/1.4/Tue Jan 13 19:49:31 2009//
+/TestPccx.java/1.9/Mon Oct 26 23:29:39 2009//

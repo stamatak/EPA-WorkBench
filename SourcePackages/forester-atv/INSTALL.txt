@@ -1,0 +1,94 @@
+ATV 3.1 BETA
+  1/1/06
+============
+
+
+Table of Contents
+1. Unpacking FORESTER-ATV
+2. Compiling and Jar-ing ATV
+3. Java Script to start ATV as an applet
+
+
+
+1. Unpacking FORESTER-ATV
+_________________________
+Unix/Linux/Mac OSX:
+  Download the *nix distribution, forester-version.tar.gz into
+  the directory where you want to install ATV.
+  
+  Unpack the distribution with:
+    gunzip forester-version.tar.gz
+    tar -xvf forester-version.tar
+
+Windows:
+  Download the Windows distribution, forester-version.zip
+  
+  Unzip forester-version.zip in the directory you wish to
+  install FORESTER-ATV
+
+
+
+2. Compiling and Jar-ing ATV
+____________________________
+
+% javac org.forester/atv/*java
+% javac org/forester/extensions/*.java
+
+To make the applet jar:
+
+% jar -cvf ATVjapplet.jar org/
+
+For examples of how to use the applet, please see:
+http://www.phylosoft.org/atv/examples/
+
+It is probably best to start ATV from a java script (see bottom of this 
+for an example).
+
+
+
+3. Java Script to start ATV (example)
+_____________________________________
+
+
+<SCRIPT language="JavaScript">
+<!--
+function openWin( u ) {
+  atv_window = open("", "atv_window", 
+    "width=300,height=150,status=no,toolbar=no,menubar=no,resizable=yes");
+
+  // open document for further output
+  atv_window.document.open();
+  
+  // create document
+  atv_window.document.writeln( "<HTML>" );
+  atv_window.document.writeln( "<HEAD>" );
+  atv_window.document.writeln( "<TITLE>ATV Launchpad</TITLE>" );
+  atv_window.document.writeln( "<BASE HREF=\"http://path/to/ATVjapplet/\">" );
+  atv_window.document.writeln( "</HEAD>" );
+  atv_window.document.writeln( "<BODY TEXT=\"#FFFFFF\" BGCOLOR=\"#000000\">" );
+  atv_window.document.writeln( "<FONT FACE=\"HELVETICA,ARIAL\">" );
+  atv_window.document.writeln( "<CENTER>" );
+  atv_window.document.writeln( "<B>Please do not close this window as long as you want to use ATV.</B>" );
+  atv_window.document.write( "<APPLET ARCHIVE=\"ATVjapplet.jar\"" );
+  atv_window.document.write( " CODE=\"forester.atv.ATVjapplet.class\"" );
+  atv_window.document.write( " WIDTH=\"220\" HEIGHT=\"60\"" );
+  atv_window.document.writeln( " ALT=\"ATV Applet is not working on your system (requires at least Sun Java 1.2.2).\">" );
+  atv_window.document.writeln( "<PARAM NAME=\"url_of_tree_to_load\" VALUE=\"http://path/to/trees/" + u + "\">" );
+  atv_window.document.writeln( "<PARAM NAME=\"atv_applet_level\" VALUE=\"\">" );
+  atv_window.document.writeln( "Your browser is completely ignoring the &lt;APPLET&gt; tag!" );
+  atv_window.document.writeln( "</APPLET>" );
+  atv_window.document.writeln( "</CENTER>" );
+  atv_window.document.writeln( "</BODY>" );
+  atv_window.document.writeln( "</HTML>" );
+  
+  // close the document - (not the window!)
+  atv_window.document.close();  
+}
+// -->
+</SCRIPT>
+
+
+Use something like this to call "openWin":
+<a href="#" onClick="openWin( 'x.nhx' )">Tree X</a>
+
+
