@@ -42,6 +42,7 @@ public class Constants {
 	public static final File HMMBUILD = new File(HMMER,"hmmbuild");
 	public static final File HMMALIGN = new File(HMMER,"hmmalign");
 	public static final File SWPS3 = new File(new File(BIOPROGS,"swps3"),"swps3");
+	public static final File PWDIST = new File(new File(BIOPROGS,"swps3"),"pw_dist"); // Simons Smith Waterman implementation for Windows user
 	public static final File MATRIX_DNA = new File(new File(new File(BIOPROGS,"swps3"),"matrices"),"dna_matrix.mat");
 	public static final File MATRIX_AA = new File(new File(new File(BIOPROGS,"swps3"),"matrices"),"blosum62.mat");
 	public static final File CONVERT_TO_PHYLOXML = new File(JARS,"convertToPhyloXML.jar");

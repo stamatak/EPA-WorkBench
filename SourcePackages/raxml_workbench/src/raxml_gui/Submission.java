@@ -336,7 +336,7 @@ public class Submission implements Runnable {
 				Util.printErrors(e);
 			}
 		}
-		command = "java -jar "+Constants.CONVERT_TO_PHYLOXML.getAbsolutePath()+" "+treefile+" "+_jobpath+File.separator+empty_file; 
+		command = "java -jar "+Constants.CONVERT_TO_PHYLOXML.getAbsolutePath()+" "+treefile+" "+empty_file; 
 		run(command,_jobpath+File.separator+"treefile_no_placements.phyloxml");
 		empty_file.delete();
 	}
@@ -431,7 +431,7 @@ public class Submission implements Runnable {
 			}
 			Util.writeToFile(fasta_db_file_content, fasta_db_file.getAbsolutePath());
 			gene.setSeqs(seqs);
-
+			
 			// execute swps3 with every query sequence against the geneX sequences     
 			Set <String> names = query_sequences.keySet();
 			for(String name : names){
@@ -442,11 +442,22 @@ public class Submission implements Runnable {
 				Util.writeToFile(one_liner, query_seq.getAbsolutePath());
 				String swps3_out = new File(job_folder,"swps3.out").getAbsolutePath(); 
 				command = "";
-				if (Util.matches(genes_types.get(gene_no),"[Dd][Nn][Aa]")){                                                                                                             
-					command = Constants.SWPS3+" -i -5 -e -2 "+Constants.MATRIX_DNA+" "+query_seq.getAbsolutePath()+" "+fasta_db_file.getAbsolutePath();
-				}                                                                                                             
-				else{                                                                                                                                                
-					command = Constants.SWPS3+" "+Constants.MATRIX_AA+" "+query_seq.getAbsolutePath()+" "+fasta_db_file.getAbsolutePath();
+				String os = System.getProperty("os.name");
+				if (Util.matches(os, "Windows")){
+					if (Util.matches(genes_types.get(gene_no),"[Dd][Nn][Aa]")){                                                                                                             
+						command = Constants.PWDIST+" -4 -o -5 -e -2 -s "+Constants.MATRIX_DNA+" -g "+query_seq.getAbsolutePath()+" -f "+fasta_db_file.getAbsolutePath();
+					}                                                                                                             
+					else{                                                                                                                                                
+						command = Constants.PWDIST+" -4 -o -12 -e -2 -s "+Constants.MATRIX_AA+" -g "+query_seq.getAbsolutePath()+" -f "+fasta_db_file.getAbsolutePath();
+					}
+				}
+				else{
+					if (Util.matches(genes_types.get(gene_no),"[Dd][Nn][Aa]")){                                                                                                             
+						command = Constants.SWPS3+" -i -5 -e -2 "+Constants.MATRIX_DNA+" "+query_seq.getAbsolutePath()+" "+fasta_db_file.getAbsolutePath();
+					}                                                                                                             
+					else{                                                                                                                                                
+						command = Constants.SWPS3+" "+Constants.MATRIX_AA+" "+query_seq.getAbsolutePath()+" "+fasta_db_file.getAbsolutePath();
+					}
 				}
 				log.add(command);
 				log.add(name);
@@ -457,7 +468,7 @@ public class Submission implements Runnable {
 				String[] scorefile = Util.readFile(swps3_out);                                                                                                                 
 				int score = 0;
 				for(int j = 0; j< scorefile.length; j++){
-					String[] g = Util.matchesWithGroups(scorefile[j],"^(\\d+)\\s+" );
+					String[] g = Util.matchesWithGroups(scorefile[j],"^(\\d+)\\s\\S+$" );
 					if ( g != null && g.length > 1){ 
 						score = Integer.parseInt(g[1]);
 						log.add("Score: "+score);
@@ -474,7 +485,6 @@ public class Submission implements Runnable {
 			}                                                                                                                                                  
 			gene_no++;                                                                                                                                    
 		}    
-		
 		Set<String> blas = read_gene_mapping.keySet();
 		for(String bla : blas){
 			log.add(bla+" => "+read_gene_mapping.get(bla));
@@ -520,7 +530,7 @@ public class Submission implements Runnable {
 					}
 					else{                                                                                                                                                 
 						_raxml_options.put("-m","PROT"+model+matrices.get(i));  // PROTGAMMAWAGF                                                                               
-					}                                                                                                                                                  
+					}
 					runRAxML();      
 				}
 			}                                                                                                                                                   
@@ -533,7 +543,8 @@ public class Submission implements Runnable {
 		else{    
 			Util.concatenateFiles(_jobpath, "RAxML_classification\\."+outname+"\\.GENE.+$", new File(_jobpath,"RAxML_classification."+outname).getAbsolutePath());
 		}
-		Util.writeToFile(log, "/home/denis/Desktop/log.txt");
+		
+		Util.writeToFile(log, "C:\\Users\\denis\\Desktop\\log.txt");
 	}
 	enum Jobtype{
 		SGA,

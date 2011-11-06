@@ -84,6 +84,7 @@ public class AlignmentfileParser {
 			Util.writeToFile(_data, temp.getAbsolutePath());
 			String[] command = {Constants.RAXML.getAbsolutePath(),"-s", temp.getAbsolutePath(), "-fc", "-m", "GTRGAMMA", "-n", "checkFormat"};
 			ProcessBuilder builder2 = new ProcessBuilder(command);
+			builder2.directory(Constants.JAR_PATH);
 			builder2.redirectErrorStream(true);
 			p = builder2.start();
 			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -95,10 +96,17 @@ public class AlignmentfileParser {
 		          _format = "unk"; 
 		          _valid_format = false;
 				}
+				if (Util.matches(line,"^Alignment\\sformat\\scan\\sbe\\sread\\sby\\sRAxML")){ //Because of some other Warnings in windows version, it should suffice if RAxML prints this message
+					_valid_format = true;
+				}
 			}
 //			if (!_error.isEmpty() ){
 //				_error += _error;
 //			}
+			File info_file = new File(Constants.JAR_PATH,"RAxML_info.checkFormat");
+			if (info_file.exists()){
+				info_file.delete();
+			}
 			temp.delete();
 			p.waitFor();
 		}
