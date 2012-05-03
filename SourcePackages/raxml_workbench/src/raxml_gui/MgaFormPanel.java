@@ -81,12 +81,12 @@ public class MgaFormPanel extends JPanel implements ActionListener{
 	private JSpinner _cores_spinner;
 	private JLabel _speed_label;
 	private JCheckBox _speed_checkbox;
-	private JLabel _use_bootstrapping_label;
-	private JCheckBox _use_bootstrapping_checkbox;
-	private JLabel _bootstrap_rnd_seed_label;
-	private JTextField _bootstrap_rnd_seed_textfield;
-	private JLabel _bootstrap_samples_label;
-	private JTextField _bootstrap_samples_textfield;
+//	private JLabel _use_bootstrapping_label;
+//	private JCheckBox _use_bootstrapping_checkbox;
+//	private JLabel _bootstrap_rnd_seed_label;
+//	private JTextField _bootstrap_rnd_seed_textfield;
+//	private JLabel _bootstrap_samples_label;
+//	private JTextField _bootstrap_samples_textfield;
 	private JLabel _use_heuristic_label; 
 	private JCheckBox _use_heuristic_checkbox;
 	private JLabel _heuristic_model_label;
@@ -115,9 +115,9 @@ public class MgaFormPanel extends JPanel implements ActionListener{
 	private String _treefile = "treefile";
 	private String _cores = "cores";
 	private String _fast = "fast";
-	private String _use_bootstrap = "use_bootstrap";
-	private String _random_seed = "random_seed";
-	private String _samples = "samples";
+//	private String _use_bootstrap = "use_bootstrap";
+//	private String _random_seed = "random_seed";
+//	private String _samples = "samples";
 	private String _use_heuristics = "use_heuristics";
 	private String _heuristic_model = "heuristic_model";
 	private String _heuristic_value = "heuristic_value";
@@ -144,9 +144,9 @@ public class MgaFormPanel extends JPanel implements ActionListener{
 		_parameters.put(_treefile, null);
 		_parameters.put(_cores, null);
 		_parameters.put(_fast, "y"); // fast heuristics default
-		_parameters.put(_use_bootstrap, null);
-		_parameters.put(_random_seed, null);
-		_parameters.put(_samples, null);
+//		_parameters.put(_use_bootstrap, null);
+//		_parameters.put(_random_seed, null);
+//		_parameters.put(_samples, null);
 		_parameters.put(_use_heuristics, null);
 		_parameters.put(_heuristic_model, null);
 		_parameters.put(_heuristic_value, null);
@@ -185,24 +185,24 @@ public class MgaFormPanel extends JPanel implements ActionListener{
 				hideHeuristicOptions();
 			}
 		}
-		// bootstrapping checkbox etc
-		else if (e.getSource() == _use_bootstrapping_checkbox){
-			if (_use_bootstrapping_checkbox.isSelected()){
-				_use_heuristic_checkbox.setSelected(false);
-				hideHeuristicOptions();
-				showBootstrapOptions();
-			}
-			else{
-				hideBootstrapOptions();
-			}
-		}
+//		// bootstrapping checkbox etc
+//		else if (e.getSource() == _use_bootstrapping_checkbox){
+//			if (_use_bootstrapping_checkbox.isSelected()){
+//				_use_heuristic_checkbox.setSelected(false);
+//				hideHeuristicOptions();
+//				showBootstrapOptions();
+//			}
+//			else{
+//				hideBootstrapOptions();
+//			}
+//		}
 		// heuristic checkbox etc
 		else if (e.getSource() == _use_heuristic_checkbox){
 			if (_use_heuristic_checkbox.isSelected()){
 				_speed_checkbox.setSelected(false);
-				_use_bootstrapping_checkbox.setSelected(false);
+//				_use_bootstrapping_checkbox.setSelected(false);
 				showHeuristicOptions();
-				hideBootstrapOptions();
+//				hideBootstrapOptions();
 			}
 			else {
 //				_speed_checkbox.setSelected(true);
@@ -493,84 +493,85 @@ public class MgaFormPanel extends JPanel implements ActionListener{
 		c.gridy =y;
 		this.add(_speed_label,c);
 		
-		//speed checkbox
-		_speed_checkbox = new JCheckBox("");
-		_speed_checkbox.addActionListener(this);
-		_speed_checkbox.setBackground(Constants.BACKGROUND_COLOR);
-		c.anchor = GridBagConstraints.NORTHWEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = new Insets(0, 0, 5, 0);
-		c.gridx = 1;
-		c.gridy = y;
-		this.add(_speed_checkbox,c);
+//		//// No Speedbox anymore
+//		//speed checkbox
+//		_speed_checkbox = new JCheckBox("");
+//		_speed_checkbox.addActionListener(this);
+//		_speed_checkbox.setBackground(Constants.BACKGROUND_COLOR);
+//		c.anchor = GridBagConstraints.NORTHWEST;
+//		c.fill = GridBagConstraints.NONE;
+//		c.insets = new Insets(0, 0, 5, 0);
+//		c.gridx = 1;
+//		c.gridy = y;
+//		this.add(_speed_checkbox,c);
 
-		//use bootstrapping label
-		y++;
-		_use_bootstrapping_label = new JLabel("Bootstrapping:");
-		_use_bootstrapping_label.setFont(Constants.LABEL_FONT);
-		c.anchor = GridBagConstraints.NORTHEAST;
-		c.insets = new Insets(2, 0, 5, 15);
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy =y;
-		this.add(_use_bootstrapping_label,c);
-		
-		//use bootstrapping checkbox
-		_use_bootstrapping_checkbox = new JCheckBox("");
-		_use_bootstrapping_checkbox.addActionListener(this);
-		_use_bootstrapping_checkbox.setBackground(Constants.BACKGROUND_COLOR);
-		c.anchor = GridBagConstraints.NORTHWEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = new Insets(0, 0, 5, 0);
-		c.gridx = 1;
-		c.gridy = y;
-		this.add(_use_bootstrapping_checkbox,c);
-		
-		//Bootstrap random seed label
-		y++;
-		_bootstrap_rnd_seed_label = new JLabel("Random Seed:");
-		_bootstrap_rnd_seed_label.setFont(Constants.LABEL_FONT);
-		c.anchor = GridBagConstraints.NORTHEAST;
-		c.insets = new Insets(15, 0, 5, 15);
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy =y;
-		_bootstrap_rnd_seed_label.setVisible(false);
-		this.add(_bootstrap_rnd_seed_label,c);
-		
-		//Bootstrap random seed textfield
-		_bootstrap_rnd_seed_textfield = new JTextField("1234");
-		_bootstrap_rnd_seed_textfield.setPreferredSize(new Dimension(50,20));
-		c.anchor = GridBagConstraints.NORTHWEST;
-		c.insets = new Insets(15, 0, 5, 5);
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 1;
-		c.gridy = y;
-		_bootstrap_rnd_seed_textfield.setVisible(false);
-		this.add(_bootstrap_rnd_seed_textfield,c);
-		
-		//Bootstrap samples label
-		y++;
-		_bootstrap_samples_label = new JLabel("Samples:");
-		_bootstrap_samples_label.setFont(Constants.LABEL_FONT);
-		c.anchor = GridBagConstraints.NORTHEAST;
-		c.insets = new Insets(15, 0, 5, 15);
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy =y;
-		_bootstrap_samples_label.setVisible(false);
-		this.add(_bootstrap_samples_label,c);
-		
-		//Bootstrap samples textfield
-		_bootstrap_samples_textfield = new JTextField("100");
-		_bootstrap_samples_textfield.setPreferredSize(new Dimension(50, 20));
-		c.anchor = GridBagConstraints.NORTHWEST;
-		c.insets = new Insets(15, 0, 5, 5);
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 1;
-		c.gridy = y;
-		_bootstrap_samples_textfield.setVisible(false);
-		this.add(_bootstrap_samples_textfield,c);
+//		//use bootstrapping label
+//		y++;
+//		_use_bootstrapping_label = new JLabel("Bootstrapping:");
+//		_use_bootstrapping_label.setFont(Constants.LABEL_FONT);
+//		c.anchor = GridBagConstraints.NORTHEAST;
+//		c.insets = new Insets(2, 0, 5, 15);
+//		c.fill = GridBagConstraints.NONE;
+//		c.gridx = 0;
+//		c.gridy =y;
+//		this.add(_use_bootstrapping_label,c);
+//		
+//		//use bootstrapping checkbox
+//		_use_bootstrapping_checkbox = new JCheckBox("");
+//		_use_bootstrapping_checkbox.addActionListener(this);
+//		_use_bootstrapping_checkbox.setBackground(Constants.BACKGROUND_COLOR);
+//		c.anchor = GridBagConstraints.NORTHWEST;
+//		c.fill = GridBagConstraints.NONE;
+//		c.insets = new Insets(0, 0, 5, 0);
+//		c.gridx = 1;
+//		c.gridy = y;
+//		this.add(_use_bootstrapping_checkbox,c);
+//		
+//		//Bootstrap random seed label
+//		y++;
+//		_bootstrap_rnd_seed_label = new JLabel("Random Seed:");
+//		_bootstrap_rnd_seed_label.setFont(Constants.LABEL_FONT);
+//		c.anchor = GridBagConstraints.NORTHEAST;
+//		c.insets = new Insets(15, 0, 5, 15);
+//		c.fill = GridBagConstraints.NONE;
+//		c.gridx = 0;
+//		c.gridy =y;
+//		_bootstrap_rnd_seed_label.setVisible(false);
+//		this.add(_bootstrap_rnd_seed_label,c);
+//		
+//		//Bootstrap random seed textfield
+//		_bootstrap_rnd_seed_textfield = new JTextField("1234");
+//		_bootstrap_rnd_seed_textfield.setPreferredSize(new Dimension(50,20));
+//		c.anchor = GridBagConstraints.NORTHWEST;
+//		c.insets = new Insets(15, 0, 5, 5);
+//		c.fill = GridBagConstraints.NONE;
+//		c.gridx = 1;
+//		c.gridy = y;
+//		_bootstrap_rnd_seed_textfield.setVisible(false);
+//		this.add(_bootstrap_rnd_seed_textfield,c);
+//		
+//		//Bootstrap samples label
+//		y++;
+//		_bootstrap_samples_label = new JLabel("Samples:");
+//		_bootstrap_samples_label.setFont(Constants.LABEL_FONT);
+//		c.anchor = GridBagConstraints.NORTHEAST;
+//		c.insets = new Insets(15, 0, 5, 15);
+//		c.fill = GridBagConstraints.NONE;
+//		c.gridx = 0;
+//		c.gridy =y;
+//		_bootstrap_samples_label.setVisible(false);
+//		this.add(_bootstrap_samples_label,c);
+//		
+//		//Bootstrap samples textfield
+//		_bootstrap_samples_textfield = new JTextField("100");
+//		_bootstrap_samples_textfield.setPreferredSize(new Dimension(50, 20));
+//		c.anchor = GridBagConstraints.NORTHWEST;
+//		c.insets = new Insets(15, 0, 5, 5);
+//		c.fill = GridBagConstraints.NONE;
+//		c.gridx = 1;
+//		c.gridy = y;
+//		_bootstrap_samples_textfield.setVisible(false);
+//		this.add(_bootstrap_samples_textfield,c);
 
 		//use heuristic label
 		y++;
@@ -807,12 +808,12 @@ public class MgaFormPanel extends JPanel implements ActionListener{
 		_heuristic_numbers_combobox.setVisible(true);
 	}
 	
-	private void showBootstrapOptions(){
-		_bootstrap_rnd_seed_label.setVisible(true);
-		_bootstrap_rnd_seed_textfield.setVisible(true);
-		_bootstrap_samples_label.setVisible(true);
-		_bootstrap_samples_textfield.setVisible(true);
-	}
+//	private void showBootstrapOptions(){
+//		_bootstrap_rnd_seed_label.setVisible(true);
+//		_bootstrap_rnd_seed_textfield.setVisible(true);
+//		_bootstrap_samples_label.setVisible(true);
+//		_bootstrap_samples_textfield.setVisible(true);
+//	}
 	
 	private void hideHeuristicOptions(){
 		_heuristic_model_label.setVisible(false);
@@ -826,17 +827,17 @@ public class MgaFormPanel extends JPanel implements ActionListener{
 		_parameters.put(_heuristic_value, null);
 	}
 	
-	private void hideBootstrapOptions(){
-		_bootstrap_rnd_seed_label.setVisible(false);
-		_bootstrap_rnd_seed_textfield.setVisible(false);
-		_bootstrap_rnd_seed_textfield.setText("1234");
-		_bootstrap_samples_label.setVisible(false);
-		_bootstrap_samples_textfield.setVisible(false);
-		_bootstrap_samples_textfield.setText("100");
-		_parameters.put(_use_bootstrap, null);
-		_parameters.put(_random_seed, null);
-		_parameters.put(_samples, null);
-	}
+//	private void hideBootstrapOptions(){
+//		_bootstrap_rnd_seed_label.setVisible(false);
+//		_bootstrap_rnd_seed_textfield.setVisible(false);
+//		_bootstrap_rnd_seed_textfield.setText("1234");
+//		_bootstrap_samples_label.setVisible(false);
+//		_bootstrap_samples_textfield.setVisible(false);
+//		_bootstrap_samples_textfield.setText("100");
+//		_parameters.put(_use_bootstrap, null);
+//		_parameters.put(_random_seed, null);
+//		_parameters.put(_samples, null);
+//	}
 	
 	public void resetForm(){
 		// reset saved parameters
@@ -848,10 +849,10 @@ public class MgaFormPanel extends JPanel implements ActionListener{
 		// reset form
 		_alignment_textfield.setText("");
 		_tree_textfield.setText("");
-		_speed_checkbox.setSelected(true);
+//		_speed_checkbox.setSelected(true);
 		_cores_spinner.setValue(1);
-		_use_bootstrapping_checkbox.setSelected(false);
-		hideBootstrapOptions();
+//		_use_bootstrapping_checkbox.setSelected(false);
+//		hideBootstrapOptions();
 		_use_heuristic_checkbox.setSelected(false);
 		hideHeuristicOptions();
 		_jobname_textfield.setText("");
@@ -871,21 +872,21 @@ public class MgaFormPanel extends JPanel implements ActionListener{
 		
 		_parameters.put(_cores, _cores_spinner.getValue().toString());
 		
-		if (_speed_checkbox.isSelected()){
-			_parameters.put(_fast, "y");
-		}
-		else{
+//		if (_speed_checkbox.isSelected()){
+//			_parameters.put(_fast, "y");
+//		}
+//		else{
 			_parameters.put(_fast, "v");
-		}
+//		}
 		
-		if (_use_bootstrapping_checkbox.isSelected()){
-			_parameters.put(_use_bootstrap, "true");
-			_parameters.put(_random_seed, _bootstrap_rnd_seed_textfield.getText());
-			_parameters.put(_samples, _bootstrap_samples_textfield.getText());
-		}
-		else{
-			_parameters.put(_use_bootstrap,null);
-		}
+//		if (_use_bootstrapping_checkbox.isSelected()){
+//			_parameters.put(_use_bootstrap, "true");
+//			_parameters.put(_random_seed, _bootstrap_rnd_seed_textfield.getText());
+//			_parameters.put(_samples, _bootstrap_samples_textfield.getText());
+//		}
+//		else{
+//			_parameters.put(_use_bootstrap,null);
+//		}
 		
 		if (_use_heuristic_checkbox.isSelected()){
 			_parameters.put(_use_heuristics,"true");
@@ -965,11 +966,11 @@ public class MgaFormPanel extends JPanel implements ActionListener{
 			else if (key.equals(_fast)){
 				c.add("-f");c.add(p);
 			}
-			// Bootstrapping
-			else if (key.equals(_use_bootstrap) && p != null){
-				c.add("-x");c.add(_parameters.get(_random_seed));
-				c.add("-N");c.add(_parameters.get(_samples));
-			}
+//			// Bootstrapping
+//			else if (key.equals(_use_bootstrap) && p != null){
+//				c.add("-x");c.add(_parameters.get(_random_seed));
+//				c.add("-N");c.add(_parameters.get(_samples));
+//			}
 			// Heuristics
 			else if (key.equals(_use_heuristics) && p != null){
 				if (_parameters.get(_heuristic_model).equals("MP")){
@@ -1013,7 +1014,7 @@ public class MgaFormPanel extends JPanel implements ActionListener{
 			// Check alignmentfile
 			if (key.equals(_alignmentfile) ){
 				if (p != null && !p.equals("") && (new File(p)).exists() ){
-					AlignmentfileParser a = new AlignmentfileParser(p);
+					AlignmentfileParser a = new AlignmentfileParser(p, _parameters.get(_het_model), _parameters.get(_partitionfile));
 					if (!a.isValidFormat()){
 						_input_errors.put(_alignmentfile, a.getErrorMessage());
 					}
@@ -1099,17 +1100,17 @@ public class MgaFormPanel extends JPanel implements ActionListener{
 					_input_errors.put(_cores, "Invalid amount of cores!");
 				}
 			}
-			// Bootstrapping
-			else if (key.equals(_use_bootstrap) && p != null){
-				//Check if "random seed" is an integer
-				if (!(_parameters.get(_random_seed).matches("^\\d+$"))){
-					_input_errors.put(_random_seed, "This value has to be an integer!");
-				}
-				//check if "samples" is an integer
-				if (!(_parameters.get(_samples).matches("^\\d+$"))){
-					_input_errors.put(_samples, "This value has to be an integer!");
-				}
-			}
+//			// Bootstrapping
+//			else if (key.equals(_use_bootstrap) && p != null){
+//				//Check if "random seed" is an integer
+//				if (!(_parameters.get(_random_seed).matches("^\\d+$"))){
+//					_input_errors.put(_random_seed, "This value has to be an integer!");
+//				}
+//				//check if "samples" is an integer
+//				if (!(_parameters.get(_samples).matches("^\\d+$"))){
+//					_input_errors.put(_samples, "This value has to be an integer!");
+//				}
+//			}
 			// Jobname
 			else if (key.equals(_jobname) ){
 				if ( p != null && !p.isEmpty()){
@@ -1203,12 +1204,12 @@ public class MgaFormPanel extends JPanel implements ActionListener{
 			else if (error.equals(_cores)){
 				highlightError(_cores_label, _input_errors.get(error));
 			}
-			else if (error.equals(_samples)){
-				highlightError(_bootstrap_samples_label, _input_errors.get(error));
-			}
-			else if (error.equals(_random_seed)){
-				highlightError(_bootstrap_rnd_seed_label, _input_errors.get(error));
-			}
+//			else if (error.equals(_samples)){
+//				highlightError(_bootstrap_samples_label, _input_errors.get(error));
+//			}
+//			else if (error.equals(_random_seed)){
+//				highlightError(_bootstrap_rnd_seed_label, _input_errors.get(error));
+//			}
 			else if (error.equals(_jobname)){
 				highlightError(_jobname_label, _input_errors.get(error));
 			}
@@ -1232,12 +1233,12 @@ public class MgaFormPanel extends JPanel implements ActionListener{
 		else if (_input_errors.get(_cores) == null){
 			_cores_label.setForeground(null);
 		}
-		else if (_input_errors.get(_samples) == null){
-			_bootstrap_samples_label.setForeground(null);
-		}
-		else if (_input_errors.get(_random_seed) == null){
-			_bootstrap_rnd_seed_label.setForeground(null);
-		}
+//		else if (_input_errors.get(_samples) == null){
+//			_bootstrap_samples_label.setForeground(null);
+//		}
+//		else if (_input_errors.get(_random_seed) == null){
+//			_bootstrap_rnd_seed_label.setForeground(null);
+//		}
 		else if (_input_errors.get(_jobfolder) == null){
 			_jobfolder_label.setForeground(null);
 		}

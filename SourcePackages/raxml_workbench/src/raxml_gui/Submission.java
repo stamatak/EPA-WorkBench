@@ -214,7 +214,8 @@ public class Submission implements Runnable {
 	}
 	
 	private void runHmmer(){
-		Reformat ref = new Reformat(_raxml_options.get("-s"));
+		
+		Reformat ref = new Reformat(new AlignmentfileParser(_raxml_options.get("-s"), _raxml_options.get("-m"), _raxml_options.get("-q")).getData());
 	    ref.reformatToStockholm();
 	    Util.writeToFile(ref.getData(), _jobpath+File.separator+"alignmentfile.sto");
 	    _log.add("Wrote "+_jobpath+File.separator+"alignmentfile.sto");
@@ -257,6 +258,8 @@ public class Submission implements Runnable {
 	    	for (String key : keys){
 	    		command = command + key + " " + _raxml_options.get(key) + " ";
 	    	}
+//	    	System.out.println(command);
+	    	_log.add("Executing EPA: "+command);
 	    	run(command,null);
 	    }
 	    else{
@@ -265,6 +268,8 @@ public class Submission implements Runnable {
 	    	for (String key : keys){
 	    		command = command + key + " " + _raxml_options.get(key) + " ";
 	    	}
+//	    	System.out.println(command);
+	    	_log.add("Executing EPA: "+command);
 	    	run(command,null);
 	    }
 	}	
@@ -282,6 +287,7 @@ public class Submission implements Runnable {
 			String line;
 			
 			while ((line = in.readLine()) != null) {
+//				System.out.println(line);
 				if (direct_out_to == null){
 					_log.add(line);
 					_job.setJobLog(_log);
@@ -350,9 +356,11 @@ public class Submission implements Runnable {
 				return Util.matches(name,"RAxML_originalLabelledTree."+_jobname+".*$"  );
 			}
 		});
+//		System.out.println(treefiles[0].getAbsolutePath()); 
 		String labeltree = treefiles[0].getAbsolutePath(); 
 		String reftree = _raxml_options.get("-t");
 		String command = "java -jar "+Constants.TREE_MERGE_LABELS.getAbsolutePath()+" "+reftree+" "+labeltree;
+//		System.out.println(command);
 		run(command,_jobpath+File.separator+"final_tree.tree" );
 		_raxml_options.put("-t",_jobpath+File.separator+"final_tree.tree");	
 
@@ -411,7 +419,7 @@ public class Submission implements Runnable {
 		for(int i = 0; i < gene_files.length; i++){
 			File fasta_db_file = new File(job_folder,"GENE"+gene_no+"_db.fas") ;    
 			ArrayList<String> fasta_db_file_content = new ArrayList<String>();
-			AlignmentfileParser gene = new AlignmentfileParser(gene_files[i].getAbsolutePath());     
+			AlignmentfileParser gene = new AlignmentfileParser(gene_files[i].getAbsolutePath(), _raxml_options.get("-m"), _raxml_options.get("-q"));     
 			gene.parseSeqs();
 			gene.disalign();   
 			HashMap<String,String> seqs = gene.getSeqs();
@@ -535,7 +543,6 @@ public class Submission implements Runnable {
 				}
 			}                                                                                                                                                   
 		}                                                                                                                                                     
-
 		// Concat result files                                                                                                                                    
 		if (_raxml_options.get("-N") == null){ // no bootstrap samples, concat RAxML Classification Likelihood weights
 			Util.concatenateFiles(_jobpath, "RAxML_classificationLikelihoodWeights\\."+outname+"\\.GENE.+$", new File(_jobpath,"RAxML_classificationLikelihoodWeights."+outname).getAbsolutePath());

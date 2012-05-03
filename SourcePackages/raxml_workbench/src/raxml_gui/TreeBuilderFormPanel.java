@@ -857,7 +857,7 @@ public class TreeBuilderFormPanel  extends JPanel implements ActionListener{
 			// Check alignmentfile
 			if (key.equals(_alignmentfile) ){
 				if (p != null && !p.equals("") && (new File(p)).exists() ){
-					AlignmentfileParser a = new AlignmentfileParser(p);
+					AlignmentfileParser a = new AlignmentfileParser(p,_parameters.get(_het_model), _parameters.get(_partitionfile));
 					if (!a.isValidFormat()){
 						_input_errors.put(_alignmentfile, a.getErrorMessage());
 					}

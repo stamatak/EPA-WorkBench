@@ -39,11 +39,14 @@ public class TestRaxmlWorkbench {
 	private static String _test_alignmentfile_phylip = new File(new File(Constants.TESTFOLDER,"alignmentfile"),"alignment_file").getAbsolutePath();
 	private static String _test_alignmentfile_fasta_error = new File(new File(Constants.TESTFOLDER,"alignmentfile"),"fasta_format_test_error.fas").getAbsolutePath();
 	private static String _test_alignmentfile_fasta = new File(new File(Constants.TESTFOLDER,"alignmentfile"),"fasta_format_test.fas").getAbsolutePath();
+	private static String _test_alignmentfile_interleaved_duplicate_names = new File(new File(Constants.TESTFOLDER,"alignmentfile"),"alignment_file_duplicate_names.phy").getAbsolutePath();
+	private static String _test_alignmentfile_aa = new File(new File(Constants.TESTFOLDER, "alignmentfile"),"alignment_file_aa").getAbsolutePath();
 	
 	private static String _test_readsfile=new File(new File(Constants.TESTFOLDER,"readsfile"),"queryfile.fas").getAbsolutePath();
 	private static String _test_readsfile_fasta_error = new File(new File(Constants.TESTFOLDER,"readsfile"),"fasta_error.fas").getAbsolutePath();
 	private static String _test_readsfile_alignment_error = new File(new File(Constants.TESTFOLDER,"readsfile"),"alignment_input.fas").getAbsolutePath();
 	private static String _test_readsfile_tree_error = new File(new File(Constants.TESTFOLDER,"readsfile"),"tree_input.tree").getAbsolutePath();
+	private static String _test_readsfile_duplicate_names = new File(new File(Constants.TESTFOLDER,"readsfile"),"duplicate_names.ref").getAbsolutePath();
 	
 	private static String _test_partitionfile = new File(new File(Constants.TESTFOLDER,"partitionfile"),"partition_file_shouldwork.par").getAbsolutePath();
 	private static String _test_partitionfile_length_error =new File(new File(Constants.TESTFOLDER,"partitionfile"),"partition_file_length_error.par").getAbsolutePath();
@@ -51,6 +54,8 @@ public class TestRaxmlWorkbench {
 	
 	private static String _test_treefile = new File(new File(Constants.TESTFOLDER,"treefile"),"Raxml_fast_treefile.tree").getAbsolutePath();
 	private static String _test_treefile_error = new File(new File(Constants.TESTFOLDER,"treefile"),"Raxml_fast_treefile_error.tree").getAbsolutePath();
+	private static String _test_treefile_duplicate_names = new File(new File(Constants.TESTFOLDER,"treefile"),"duplicate_names.tree").getAbsolutePath();
+	private static String _test_treefile_aa = new File(new File(Constants.TESTFOLDER,"treefile"),"treefile_aa.tree").getAbsolutePath();
 	
 	private static String _test_labeled_treefile = new File(new File(Constants.TESTFOLDER,"phyConv"),"final_tree.tree").getAbsolutePath();
 	private static String _test_classificationfile = new File(new File(Constants.TESTFOLDER,"phyConv"),"RAxML_classificationLikelihoodWeights.job1").getAbsolutePath();
@@ -76,21 +81,23 @@ public class TestRaxmlWorkbench {
 	}
 
 	private static void testSgaPanel(){
-		// test Validations
+//		// test Validations
 		testAlignmentfileValidation();
 		testReadsfileValidation();
 		testPartitionfileValidation();
 		testTreefileValidation();
 		testCoresValidation();
-		testBootstrappingValidation();
+//////		testBootstrappingValidation(); // Bootstrapping is not supported anymore
 		testJobnameValidation();
 		
 		// test Submissions
 		testSimpleSubmission();
+		testSimpleAASubmission();
 		testHmmerSubmission();
+////		testHmmerSubmissionInterleaved(); // The provided alignment file is not correct. The names within the alignment are cutted and therefore RAxML throws an error because some taxa of the tree are missing.
 		testClusteringSubmission();
 		testMGASubmission();
-		
+//		
 		// test PhyloXML Converter
 		testPhyloXMLConverter();
 		printTestresult();
@@ -106,6 +113,7 @@ public class TestRaxmlWorkbench {
 		// simple submissiontest
 		parameters.put(_alignmentfile,_test_alignmentfile_fasta_error);
 		parameters.put(_alignment_type, "dna");
+		parameters.put(_het_model, "GTRGAMMA");
 		if (_test.getSGAFormPanel() == null){
 			System.out.println("sga is null");
 		}
@@ -128,6 +136,7 @@ public class TestRaxmlWorkbench {
 		parameters.clear();
 		parameters.put(_alignmentfile,_test_alignmentfile_fasta);
 		parameters.put(_alignment_type, "dna");
+		parameters.put(_het_model, "GTRGAMMA");
 		if (_test.getSGAFormPanel() == null){
 			System.out.println("sga is null");
 		}
@@ -150,6 +159,7 @@ public class TestRaxmlWorkbench {
 		parameters.clear();
 		parameters.put(_alignmentfile,_test_alignmentfile_phylip_error);
 		parameters.put(_alignment_type, "dna");
+		parameters.put(_het_model, "GTRGAMMA");
 		if (_test.getSGAFormPanel() == null){
 			System.out.println("sga is null");
 		}
@@ -172,6 +182,7 @@ public class TestRaxmlWorkbench {
 		parameters.clear();
 		parameters.put(_alignmentfile,_test_alignmentfile_phylip);
 		parameters.put(_alignment_type, "dna");
+		parameters.put(_het_model, "GTRGAMMA");
 		if (_test.getSGAFormPanel() == null){
 			System.out.println("sga is null");
 		}
@@ -189,6 +200,52 @@ public class TestRaxmlWorkbench {
 			}
 		}
 		
+		// Test case 5
+		message = "Alignmentfile duplicate taxa and interleaved format no error";
+		parameters.clear();
+		parameters.put(_alignmentfile,_test_alignmentfile_interleaved_duplicate_names);
+		parameters.put(_alignment_type, "dna");
+		parameters.put(_het_model, "GTRGAMMA");
+		if (_test.getSGAFormPanel() == null){
+			System.out.println("sga is null");
+		}
+		else{
+			sga.setParameters(parameters);
+			sga.validateInput();
+			HashMap<String,String> errors = sga.getInputErrors();
+			if (errors.get(_alignmentfile) != null){  // no error expected
+				System.out.println(message+":\tFAILURE");
+				_failure++;
+			}
+			else{
+				System.out.println(message+":\tOK");
+				_success++;
+			}
+		}
+		
+		// Test case 6
+		message = "Alignmentfile amino acid ";
+		parameters.clear();
+		parameters.put(_alignmentfile,_test_alignmentfile_aa);
+		parameters.put(_alignment_type, "aa");
+		parameters.put(_het_model, "PROTGAMMAWAGF");
+		if (_test.getSGAFormPanel() == null){
+			System.out.println("sga is null");
+		}
+		else{
+			sga.setParameters(parameters);
+			sga.validateInput();
+			HashMap<String,String> errors = sga.getInputErrors();
+			if (errors.get(_alignmentfile) != null){  // no error expected
+				System.out.println(message+":\tFAILURE");
+				_failure++;
+			}
+			else{
+				System.out.println(message+":\tOK");
+				_success++;
+			}
+		}
+
 	}
 	
 	private static void testReadsfileValidation(){
@@ -202,6 +259,8 @@ public class TestRaxmlWorkbench {
 		parameters.put(_alignment_type, "dna");
 		parameters.put(_readsfile, _test_readsfile_fasta_error);
 		parameters.put(_use_reads, "true");
+		parameters.put(_het_model, "GTRGAMMA");
+		
 		if (_test.getSGAFormPanel() == null){
 			System.out.println("sga is null");
 		}
@@ -226,6 +285,7 @@ public class TestRaxmlWorkbench {
 		parameters.put(_alignment_type, "dna");
 		parameters.put(_readsfile, _test_readsfile_alignment_error);
 		parameters.put(_use_reads, "true");
+		parameters.put(_het_model, "GTRGAMMA");
 		if (_test.getSGAFormPanel() == null){
 			System.out.println("sga is null");
 		}
@@ -250,6 +310,7 @@ public class TestRaxmlWorkbench {
 		parameters.put(_alignment_type, "dna");
 		parameters.put(_readsfile, _test_readsfile_tree_error);
 		parameters.put(_use_reads, "true");
+		parameters.put(_het_model, "GTRGAMMA");
 		if (_test.getSGAFormPanel() == null){
 			System.out.println("sga is null");
 		}
@@ -274,6 +335,7 @@ public class TestRaxmlWorkbench {
 		parameters.put(_alignment_type, "dna");
 		parameters.put(_readsfile, _test_readsfile);
 		parameters.put(_use_reads, "true");
+		parameters.put(_het_model, "GTRGAMMA");
 		if (_test.getSGAFormPanel() == null){
 			System.out.println("sga is null");
 		}
@@ -304,6 +366,7 @@ public class TestRaxmlWorkbench {
 		parameters.put(_alignmentfile,_test_alignmentfile_fasta);
 		parameters.put(_alignment_type, "par");
 		parameters.put(_partitionfile, _test_partitionfile_length_error);
+		parameters.put(_het_model, "GTRGAMMA");
 		if (_test.getSGAFormPanel() == null){
 			System.out.println("sga is null");
 		}
@@ -327,6 +390,7 @@ public class TestRaxmlWorkbench {
 		parameters.put(_alignmentfile,_test_alignmentfile_fasta);
 		parameters.put(_alignment_type, "par");
 		parameters.put(_partitionfile, _test_partitionfile_overlap_error);
+		parameters.put(_het_model, "GTRGAMMA");
 		if (_test.getSGAFormPanel() == null){
 			System.out.println("sga is null");
 		}
@@ -350,6 +414,7 @@ public class TestRaxmlWorkbench {
 		parameters.put(_alignmentfile,_test_alignmentfile);
 		parameters.put(_alignment_type, "par");
 		parameters.put(_partitionfile, _test_partitionfile);
+		parameters.put(_het_model, "GTRGAMMA");
 		if (_test.getSGAFormPanel() == null){
 			System.out.println("sga is null");
 		}
@@ -621,7 +686,7 @@ public class TestRaxmlWorkbench {
 		parameters.put(_partitionfile, null);
 		parameters.put(_treefile, _test_treefile);
 		parameters.put(_cores, null);
-		parameters.put(_fast, "y"); // fast heuristics default
+		parameters.put(_fast, "v"); // fast heuristics default
 		parameters.put(_use_bootstrap, null);
 		parameters.put(_random_seed, null);
 		parameters.put(_samples, null);
@@ -653,48 +718,50 @@ public class TestRaxmlWorkbench {
 				e.printStackTrace();
 			}
 		}
+//		System.exit(0);
 		
-		// simple submissiontest 2 with Bootstrapping
-		parameters.put(_alignmentfile,_test_alignmentfile);
-		parameters.put(_use_reads, null);
-		parameters.put(_readsfile, null);
-		parameters.put(_use_clustering,null);
-		parameters.put(_alignment_type, "dna");
-		parameters.put(_het_model, "GTRGAMMA");
-		parameters.put(_partitionfile, null);
-		parameters.put(_treefile, _test_treefile);
-		parameters.put(_cores, null);
-		parameters.put(_fast, "y"); // fast heuristics default
-		parameters.put(_use_bootstrap, "true");
-		parameters.put(_random_seed, "4321");
-		parameters.put(_samples, "3");
-		parameters.put(_use_heuristics, null);
-		parameters.put(_heuristic_model, null);
-		parameters.put(_heuristic_value, null);
-		parameters.put(_jobname, "test");
-		parameters.put(_jobfolder, Constants.TESTFOLDER.getAbsolutePath());
-		if (_test.getSGAFormPanel() == null){
-			System.out.println("sga is null");
-		}
-		else{
-			sga.setParameters(parameters);
-			sga.submitJob(true);
-			try {
-			
-				if (checkFiles("test")){
-					System.out.println(message+"2:\tOK");
-					_success++;
-				}
-				else {
-					System.out.println(message+"2:\tFAILURE");
-					_failure++;
-				}
-				deleteJobDirectory("test");
-			}
-			catch (Exception e){
-				e.printStackTrace();
-			}
-		}
+//// NO BOOTSTRAPPING SUPPORTED ANYMORE		
+//		// simple submissiontest 2 with Bootstrapping
+//		parameters.put(_alignmentfile,_test_alignmentfile);
+//		parameters.put(_use_reads, null);
+//		parameters.put(_readsfile, null);
+//		parameters.put(_use_clustering,null);
+//		parameters.put(_alignment_type, "dna");
+//		parameters.put(_het_model, "GTRGAMMA");
+//		parameters.put(_partitionfile, null);
+//		parameters.put(_treefile, _test_treefile);
+//		parameters.put(_cores, null);
+//		parameters.put(_fast, "y"); // fast heuristics default
+//		parameters.put(_use_bootstrap, "true");
+//		parameters.put(_random_seed, "4321");
+//		parameters.put(_samples, "3");
+//		parameters.put(_use_heuristics, null);
+//		parameters.put(_heuristic_model, null);
+//		parameters.put(_heuristic_value, null);
+//		parameters.put(_jobname, "test");
+//		parameters.put(_jobfolder, Constants.TESTFOLDER.getAbsolutePath());
+//		if (_test.getSGAFormPanel() == null){
+//			System.out.println("sga is null");
+//		}
+//		else{
+//			sga.setParameters(parameters);
+//			sga.submitJob(true);
+//			try {
+//			
+//				if (checkFiles("test")){
+//					System.out.println(message+"2:\tOK");
+//					_success++;
+//				}
+//				else {
+//					System.out.println(message+"2:\tFAILURE");
+//					_failure++;
+//				}
+//				deleteJobDirectory("test");
+//			}
+//			catch (Exception e){
+//				e.printStackTrace();
+//			}
+//		}
 		
 		// simple submissontest 3 with Heuristics
 		parameters.put(_alignmentfile,_test_alignmentfile);
@@ -740,20 +807,22 @@ public class TestRaxmlWorkbench {
 		
 	}
 	
-	private static void testHmmerSubmission(){
-		String message = "SGA form test hmmer";
+	private static void testSimpleAASubmission(){
+		String message = "SGA form test simple AA";
 		SgaFormPanel sga = _test.getSGAFormPanel();
 		HashMap <String,String> parameters = new HashMap<String,String>();
-		parameters.put(_alignmentfile,_test_alignmentfile);
-		parameters.put(_use_reads, "true");
-		parameters.put(_readsfile, _test_readsfile);
+		
+		// simple submissiontest
+		parameters.put(_alignmentfile,_test_alignmentfile_aa);
+		parameters.put(_use_reads, null);
+		parameters.put(_readsfile, null);
 		parameters.put(_use_clustering,null);
-		parameters.put(_alignment_type, "dna");
-		parameters.put(_het_model, "GTRGAMMA");
+		parameters.put(_alignment_type, "aa");
+		parameters.put(_het_model, "PROTGAMMAWAGF");
 		parameters.put(_partitionfile, null);
-		parameters.put(_treefile, _test_treefile);
+		parameters.put(_treefile, _test_treefile_aa);
 		parameters.put(_cores, null);
-		parameters.put(_fast, "y"); // fast heuristics default
+		parameters.put(_fast, "v"); // fast heuristics default
 		parameters.put(_use_bootstrap, null);
 		parameters.put(_random_seed, null);
 		parameters.put(_samples, null);
@@ -767,6 +836,99 @@ public class TestRaxmlWorkbench {
 		}
 		else{
 			sga.setParameters(parameters);
+			sga.submitJob(true);
+			try {
+				if (checkFiles("test")){
+					System.out.println(message+"1:\tOK");
+					_success++;
+				}
+				else {
+					System.out.println(message+"1:\tFAILURE");
+					_failure++;
+				}
+		
+				deleteJobDirectory("test");
+			}
+			catch (Exception e){
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private static void testHmmerSubmission(){
+		String message = "SGA form test hmmer";
+		SgaFormPanel sga = _test.getSGAFormPanel();
+		HashMap <String,String> parameters = new HashMap<String,String>();
+		parameters.put(_alignmentfile,_test_alignmentfile);
+		parameters.put(_use_reads, "true");
+		parameters.put(_readsfile, _test_readsfile);
+		parameters.put(_use_clustering,null);
+		parameters.put(_alignment_type, "dna");
+		parameters.put(_het_model, "GTRGAMMA");
+		parameters.put(_partitionfile, null);
+		parameters.put(_treefile, _test_treefile);
+		parameters.put(_cores, null);
+		parameters.put(_fast, "v"); // fast heuristics default
+		parameters.put(_use_bootstrap, null);
+		parameters.put(_random_seed, null);
+		parameters.put(_samples, null);
+		parameters.put(_use_heuristics, null);
+		parameters.put(_heuristic_model, null);
+		parameters.put(_heuristic_value, null);
+		parameters.put(_jobname, "test");
+		parameters.put(_jobfolder, Constants.TESTFOLDER.getAbsolutePath());
+		if (_test.getSGAFormPanel() == null){
+			System.out.println("sga is null");
+		}
+		else{
+			sga.setParameters(parameters);
+			sga.submitJob(true);
+			try {
+				if (checkFiles("test")&& checkHmmerFiles("test")){
+					System.out.println(message+"1:\tOK");
+					_success++;
+				}
+				else {
+					System.out.println(message+"1:\tFAILURE");
+					_failure++;
+				}
+				deleteJobDirectory("test");
+			
+			}
+			catch (Exception e){
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private static void testHmmerSubmissionInterleaved(){
+		String message = "SGA form test hmmer interleaved alignment";
+		SgaFormPanel sga = _test.getSGAFormPanel();
+		HashMap <String,String> parameters = new HashMap<String,String>();
+		parameters.put(_alignmentfile,_test_alignmentfile_interleaved_duplicate_names);
+		parameters.put(_use_reads, "true");
+		parameters.put(_readsfile, _test_readsfile_duplicate_names);
+		parameters.put(_use_clustering,null);
+		parameters.put(_alignment_type, "dna");
+		parameters.put(_het_model, "GTRGAMMA");
+		parameters.put(_partitionfile, null);
+		parameters.put(_treefile, _test_treefile_duplicate_names);
+		parameters.put(_cores, null);
+		parameters.put(_fast, "v"); // fast heuristics default
+		parameters.put(_use_bootstrap, null);
+		parameters.put(_random_seed, null);
+		parameters.put(_samples, null);
+		parameters.put(_use_heuristics, null);
+		parameters.put(_heuristic_model, null);
+		parameters.put(_heuristic_value, null);
+		parameters.put(_jobname, "test");
+		parameters.put(_jobfolder, Constants.TESTFOLDER.getAbsolutePath());
+		if (_test.getSGAFormPanel() == null){
+			System.out.println("sga is null");
+		}
+		else{
+			sga.setParameters(parameters);
+			sga.validateInput();
 			sga.submitJob(true);
 			try {
 				if (checkFiles("test")&& checkHmmerFiles("test")){
@@ -801,7 +963,7 @@ public class TestRaxmlWorkbench {
 		parameters.put(_partitionfile, null);
 		parameters.put(_treefile, _test_treefile);
 		parameters.put(_cores, null);
-		parameters.put(_fast, "y"); // fast heuristics default
+		parameters.put(_fast, "v"); // fast heuristics default
 		parameters.put(_use_bootstrap, null);
 		parameters.put(_random_seed, null);
 		parameters.put(_samples, null);
@@ -826,7 +988,7 @@ public class TestRaxmlWorkbench {
 					System.out.println(message+"1:\tFAILURE");
 					_failure++;
 				}
-				deleteJobDirectory("test");
+//				deleteJobDirectory("test");
 			}
 			catch (Exception e){
 				e.printStackTrace();
@@ -846,7 +1008,7 @@ public class TestRaxmlWorkbench {
 		parameters.put(_partitionfile, _test_mga_partitionfile);
 		parameters.put(_treefile, _test_mga_treefile);
 		parameters.put(_cores, null);
-		parameters.put(_fast, "y"); // fast heuristics default
+		parameters.put(_fast, "v"); // fast heuristics default
 		parameters.put(_use_bootstrap, null);
 		parameters.put(_random_seed, null);
 		parameters.put(_samples, null);
